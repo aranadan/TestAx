@@ -1,6 +1,5 @@
 package com.touchcard.testax.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,17 +28,18 @@ class UsersAdapter(private val list: List<ApiResponse.Result>, val listener: Cel
             name.text = "${item.mName.mFirst} ${item.mName.mLast}"
             Glide.with(imageView).load(item.mPicture.mThumbnail).circleCrop().into(imageView)
             setOnClickListener {
-                listener.onCellClickListener(bundleOf(
-                    Pair(PHOTO, item.mPicture.mLarge),
-                    Pair(FULL_NAME, name.text),
-                    Pair(GENDER, item.mGender),
-                    Pair(BIRTHDAY, item.mDob.mDate),
-                    Pair(PHONE, item.mPhone),
-                    Pair(EMAIL, item.mEmail)
-                ))
+                listener.onCellClickListener(
+                    bundleOf(
+                        Pair(PHOTO, item.mPicture.mLarge),
+                        Pair(FULL_NAME, name.text),
+                        Pair(GENDER, item.mGender),
+                        Pair(BIRTHDAY, item.mDob.mDate),
+                        Pair(PHONE, item.mPhone),
+                        Pair(EMAIL, item.mEmail)
+                    )
+                )
             }
         }
-
     }
 
     override fun getItemCount() = list.size
