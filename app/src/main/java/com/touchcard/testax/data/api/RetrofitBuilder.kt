@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 internal object RetrofitBuilder {
     private const val CONNECT_TIMEOUT = 60L
     private const val READ_TIMEOUT = 60L
-    private const val BASE_URL = "https://api.touchcard.com.ua/"
+    private const val BASE_URL = "https://randomuser.me/"
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -24,8 +24,6 @@ internal object RetrofitBuilder {
         val httpInterceptor = HttpLoggingInterceptor()
         httpInterceptor.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-
-
 
         val okHttpClientBuilder =
             OkHttpClient
@@ -46,5 +44,6 @@ internal object RetrofitBuilder {
         return okHttpClientBuilder.build()
     }
 
-
+    internal val apiService: ApiService =
+        getRetrofit().create(ApiService::class.java)
 }
