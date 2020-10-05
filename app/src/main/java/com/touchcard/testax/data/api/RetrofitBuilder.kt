@@ -46,6 +46,5 @@ internal object RetrofitBuilder {
         return okHttpClientBuilder.build()
     }
 
-    internal val apiService: ApiServiceTouchcard =
-        getRetrofit().create(ApiServiceTouchcard::class.java)
+
 }
