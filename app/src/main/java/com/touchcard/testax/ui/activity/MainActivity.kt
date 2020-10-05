@@ -14,6 +14,7 @@ import com.touchcard.testax.ui.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CellClickListener {
+    private lateinit var snackBar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -21,9 +22,13 @@ class MainActivity : AppCompatActivity(), CellClickListener {
         setContentView(R.layout.activity_main)
 
         val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
-
+        snackBar = Snackbar.make(
+            recyclerUsers,
+            getString(R.string.failed_load_data),
+            Snackbar.LENGTH_INDEFINITE
+        )
+        snackBar.setAction("repeat") { initLiveData(viewModel) }
         recyclerUsers.setHasFixedSize(true)
-        swiperefresh.setOnRefreshListener { initLiveData(viewModel) }
         initLiveData(viewModel)
 
     }
@@ -34,11 +39,7 @@ class MainActivity : AppCompatActivity(), CellClickListener {
             when (it) {
                 is Response.Success -> recyclerUsers.adapter =
                     UsersAdapter(it.data.mResults, this)
-                is Response.Failure -> Snackbar.make(
-                    recyclerUsers,
-                    getString(R.string.failed_load_data),
-                    Snackbar.LENGTH_LONG
-                ).show()
+                is Response.Failure -> snackBar.show()
                 is Response.Loading -> {
                     visibilityProgressBar(it.loading)
                 }
@@ -58,7 +59,6 @@ class MainActivity : AppCompatActivity(), CellClickListener {
             true -> progressBar.visibility = View.VISIBLE
             false -> {
                 progressBar.visibility = View.INVISIBLE
-                swiperefresh.isRefreshing = false
             }
         }
     }
