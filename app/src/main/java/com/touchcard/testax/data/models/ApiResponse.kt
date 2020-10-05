@@ -68,8 +68,6 @@ data class ApiResponse(
             val mCoordinates: Coordinates,
             @SerializedName("country")
             val mCountry: String,
-            @SerializedName("postcode")
-            val mPostcode: Int,
             @SerializedName("state")
             val mState: String,
             @SerializedName("street")
